@@ -1,0 +1,125 @@
+<div class="row well predit-well">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <script type="text/ng-template" id="customTemplate.html">
+                            <a>
+                              <img ng-src="{{match.model.imgSrc}}" width="50" height="50" style="margin-right: 5px"> {{match.model.name}} ({{match.model.username}})
+                           </a>
+                        </script>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-6 control-label"> <div data-ng-hide="predictionCtrl.imageSrc==''"><img  ng-src="{{predictionCtrl.imageSrc}}" width="110" height="110"></div></label>
+                                <div class="col-md-6 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input style="margin-right: 5px"placeholder="Search for a twitter user" ng-model="predictionCtrl.selectedUser" uib-typeahead="user.name + ' (' + user.username + ')' for user in predictionCtrl.findMatchingUsers($viewValue) | limitTo:5" typeahead-loading="loading" typeahead-template-url="customTemplate.html" typeahead-on-select='predictionCtrl.predictOnSelect($item.id, $item.imgSrc)' ng-model-options="{ debounce: 500 }" class="form-control" ng-change="predictionCtrl.detectEmpty()"><i data-ng-show="predictionCtrl.loading" class="glyphicon glyphicon-refresh"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="width:100%; height:1px; background: #fff;">
+                        <div class="row" style="padding-right:30px">
+                            <div class="col-md-4" style="padding-right: 0px;" data-ng-repeat="attribute in predictionCtrl.productsAttrsValues">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label label-no-margin">{{attribute.attribute_name}}<span ng-if="attribute.is_mandatory" style="color:red">*</span></label>
+                                    <div class="col-md-7 selectContainer select-no-margin">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                            <select class="form-control selectpicker" ng-model="predictionCtrl.selected[attribute.attribute_name]">
+                                                <option value="" disabled selected>Select</option>
+                                                <option data-ng-repeat="(key, value) in attribute.coefficients" value={{key}}>{{key}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <div>
+                                    <span><button data-ng-click="predictionCtrl.getPrediction()" class="btn btn-warning">Predict<span class="glyphicon glyphicon-send"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>    
+                            <hr style="width:100%; height:1px; background: #fff; " />
+                            
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <form class="form-horizontal">
+                <div class="form-group" id="predict">
+                                <label class="col-md-5 control-label">Prediction</label>
+                                <div class="col-md-7 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-hand-right"></i></span>
+                                        <input class="form-control" type="text" id="prediction" value="{{predictionCtrl.prediction}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="form-group" id="regression">
+                                <label class="col-md-5 control-label">Eligibility Amount</label>
+                                <div class="col-md-7 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-hand-right"></i></span>
+                                        <input class="form-control" type="text" id="regression" value="{{predictionCtrl.regression}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="form-group" id="creditScore">
+                                <label class="col-md-5 control-label">Credit Score</label>
+                                <div class="col-md-7 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-hand-right"></i></span>
+                                        <input class="form-control" type="text" id="creditScore" value="{{predictionCtrl.creditScore}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="distribution">
+                                <label class="col-md-5 control-label">Distribution</label>
+                                <div class="col-md-7 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+                                        <!-- <textarea class="form-control" id="distribution" rows="4" data-ng-bind="predictionCtrl.distribution" readonly></textarea> -->
+
+                                        <ul class="input-effect">
+                                            <li ng-repeat="item in predictionCtrl.distribution">{{item}}</li>
+                                        </ul>    
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="existing">
+                                <label class="col-md-5 control-label">For Existing Customer</label>
+                                <div class="col-md-7 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+                                        <textarea class="form-control" id="distribution" rows="4" data-ng-bind="predictionCtrl.existing" readonly></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+                    <div class="col-md-7" ng-hide="predictionCtrl.data.length==0 || predictionCtrl.data==undefined">
+                <div class="row">
+                    <label class="col-md-12 text-center control-label" style="font-size: 19px; text-decoration: underline; font-weight: bold">Plots/Graphs</label>
+                    <hr style="height: 1px; background: #fff; margin-left: 4%; width: 94%;">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <nvd3-multi-bar-chart data="predictionCtrl.data" id="barId" showXAxis="false" showYAxis="true" xAxisTickFormat="predictionCtrl.xAxisTickFormatFunction()" height="400" tooltips="false" toolTipContent="predictionCtrl.toolTipContentFunction()" stacked="true" config="{refreshDataOnly: true}" showLegend="true" noData="No Data!">
+                            <svg></svg>
+                        </nvd3-multi-bar-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

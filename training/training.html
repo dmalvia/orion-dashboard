@@ -1,0 +1,108 @@
+<div class="well" data-ng-controller="trainingController as trainCtrl">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card box-col1">
+                <div class="count-title">Messages
+                </div>
+                <div class="count-num"><span ng-bind="trainCtrl.data.messages"></span></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card box-col1">
+                <div class="count-title">Connections
+                </div>
+                <div class="count-num"><span ng-bind="trainCtrl.data.connections"></span></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card box-col3">
+                <div class="count-title">Total
+                </div>
+                <div class="count-num">{{trainCtrl.total}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" class="pie-chart">
+        <div class="col-md-8">
+            <div class="card">
+                <nvd3-pie-chart
+                options="trainCtrl.options"
+                noData="No Data For You!" 
+                events="trainCtrl.events"
+                data="trainCtrl.example"
+                id="exampleId"
+                width="700"
+                height="385"
+                x="trainCtrl.xFunction()"
+                y="trainCtrl.yFunction()"
+                showLabels="true"
+                showLegend="true"
+                color="trainCtrl.colorFunction()"
+                legendColor="trainCtrl.colorFunction()">
+                <svg></svg>
+                </nvd3-pie-chart>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row status">
+                <div class="col-md-12">
+                    <div class="card box-col11" ng-click=trainCtrl.showStatusTable("success")>
+                        <div class="count-title">Success
+                        </div>
+                        <div class="count-num"><span ng-bind="trainCtrl.success.count"></span></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card box-col12" ng-click=trainCtrl.showStatusTable("pending")>
+                        <div class="count-title">Pending
+                        </div>
+                        <div class="count-num"><span ng-bind="trainCtrl.pending.count"></span></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card box-col13" ng-click=trainCtrl.showStatusTable("rejected")>
+                        <div class="count-title">Rejected
+                        </div>
+                        <div class="count-num"><span ng-bind="trainCtrl.rejected.count"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" class="info-table" ng-if="trainCtrl.displayTableInfo">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="text-left">
+                            <tr>
+                            <th>Name</th>
+                            <th>Number</th>
+                            <th>Address</th>
+                            <th>PAN</th>
+                            <th>Aadhar</th>
+                            <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="item in trainCtrl.showData" ng-click="trainCtrl.showUserInfo(item);">
+                            <td>{{item.name ? item.name : 'NA'}}</td>
+                            <td>{{item.number ? item.number : 'NA'}}</td>
+                            <td>{{item.address ? item.address : 'NA'}}</td>
+                            <td>{{item.pan ? item.pan : 'NA'}}</td>
+                            <td>{{item.aadhar ? item.aadhar : 'NA'}}</td>
+                            <td>{{item.email ? item.email : 'NA'}}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>    
+            </div> 
+        </div>
+    </div>
+    <div class="row" class="user-detail" ng-if="trainCtrl.displayUserInfo">
+        <div class="col-md-12">
+            <div class="card">
+            </div> 
+        </div>
+    </div>
+</div>

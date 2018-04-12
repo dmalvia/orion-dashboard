@@ -1,0 +1,161 @@
+.tab-list {
+	padding: 10px 10px 0px 15px;
+    font-size: 16px;
+}
+.tab-list > div{
+	display: inline-block;
+    padding: 6px 15px;
+    text-align: center;
+    background: #fafafa;
+    cursor: pointer;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border: 1px solid #dfdfdf;
+    border-bottom: 0px;
+    min-width: 120px;
+}
+.active {
+	background: #ecf0f1 !important;
+	font-weight: bold;
+}
+.well {
+	border-top-left-radius: 0px !important;
+  
+}
+.predit-well {
+  padding: 19px 0px; 
+}
+
+.input-effect {
+  border: 2px solid #dce4ec;
+    border-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    margin-bottom: 0px;
+    min-height: 42px;
+    padding-left: 28px;
+}
+
+.input-effect li {
+  list-style-type: decimal;
+}
+
+.form-group label {
+  text-align: right;
+}
+
+.custom-file-input {
+  color: black;
+  width: auto;
+  height: 44px;
+  display: inline-block !important;
+}
+.custom-file-input:focus, .custom-file-input, .custom-file-input:active {
+  outline: 0px !important;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Upload';
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f39c12, #f39c12);
+  color: #ffffff;
+  border: 1px solid #f39c12;
+  border-radius: 3px;
+  padding: 10px 15px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-size: 15px;
+   outline: 0;
+}
+.custom-file-input:hover::before {
+	background: -webkit-linear-gradient(top, #c87f0a, #c87f0a);
+  border-color: #be780a;
+}
+
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+}
+.trainbtn > button {
+  background: #006600;
+  color:#fff;
+}
+.trainbtn > button:hover {
+  background: -webkit-linear-gradient(top, #003300, #003300);
+}
+.restBtn > button {
+  background: #bbb;
+}
+.table-bordered {
+    border:1px solid rgba(0,0,0,0.3);
+}
+
+.prodlist > li {
+  float:left;
+  border:1px solid rgba(0,0,0,0.3);
+  list-style-type: none;
+  padding:5px 15px;
+  border-right:0px; 
+}
+.prodlist > li:last-child{
+  border-right: 1px solid rgba(0,0,0,0.3);
+}
+/*th {
+  text-align: center;
+}*/
+.tablediv {
+  overflow-x: scroll;
+}
+.tablediv table tr > th, .tablediv table tr > td {
+  white-space: nowrap;
+}
+
+/*  3 column layout */
+.label-no-margin {
+  /*padding-right:0px;*/
+  padding-left:0px;
+}
+
+/* Dahsboard Css Here*/
+.card {
+  border:1px solid #dfdfdf;
+  padding:15px;
+  background: #fff;
+  margin-bottom:20px;
+  cursor:pointer;
+}
+.box-col1 {
+  background: #1f77b4;
+}
+.box-col2 {
+  background: #8496af;
+}
+.box-col3 {
+  background: #ff7f0e;
+}
+.box-col11 {
+  background: #1fb469;
+}
+.box-col12 {
+  background: #ea9234;
+}
+.box-col13 {
+  background: #e61f1f;
+}
+.count-title {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.count-num {
+  color:#fff;
+  font-size: 50px;
+  text-align: center;
+}
+/*.status .count-num,  .status .count-title{
+  color:rgba(0,0,0,0.8) !important;
+}*/;

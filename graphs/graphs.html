@@ -1,0 +1,31 @@
+<div data-ng-controller="graphController as graphCtrl">
+    <div class="row well">
+        <div class="col-md-12">
+            <div class="row">
+                <form class=" form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col-md-12 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                    <select data-ng-change="graphCtrl.fetchPlotData()" class="form-control selectpicker" ng-model="graphCtrl.selectedProductInGraph" ng-options="item for item in graphCtrl.products">
+                                        <option value="" disabled selected>Select a Product</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="row">
+                <div ng-repeat="(key, data) in graphCtrl.data" class="col-md-6">
+                    <h3 class="text-center">{{key}}</h3>
+                    <hr style="border-top: 1px solid rgba(0,0,0,0.2)">
+                    <div>
+                        <nvd3 options="graphCtrl.options" data="data" events="events" class="with-3d-shadow with-transitions" config="{refreshDataOnly: true}" api = "api" on-ready="graphCtrl.callback"></nvd3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
