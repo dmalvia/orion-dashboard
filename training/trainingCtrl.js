@@ -88,6 +88,8 @@ var trainingModule = angular.module('project_X.training', [
 
             trainingCtrl.showUserInfo = function(user) {
                 trainingCtrl.displayUserInfo = true;
+                trainingCtrl.userData = user;
+                console.log(trainingCtrl.userData);
             }
             
             trainingCtrl.getDataFromService();

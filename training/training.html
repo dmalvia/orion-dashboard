@@ -102,6 +102,31 @@
     <div class="row" class="user-detail" ng-if="trainCtrl.displayUserInfo">
         <div class="col-md-12">
             <div class="card">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{trainCtrl.userData.self_image}}" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{trainCtrl.userData.aadhaar_image}}" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{trainCtrl.userData.pan_image}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{trainCtrl.userData.selfie_aadhaar_similarity}}
+                    </div>
+                    <div class="col-md-6">
+                        {{trainCtrl.userData.selfie_pan_similarity}}
+                    </div>
+                </div>
             </div> 
         </div>
     </div>
