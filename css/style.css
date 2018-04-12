@@ -156,6 +156,11 @@
   font-size: 50px;
   text-align: center;
 }
+.img-label > p {
+  display: inline-block;
+  width: 49%;
+  text-align: center;
+}
 /*.status .count-num,  .status .count-title{
   color:rgba(0,0,0,0.8) !important;
 }*/;
