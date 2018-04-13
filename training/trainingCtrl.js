@@ -80,6 +80,7 @@ var trainingModule = angular.module('project_X.training', [
                 if(status == 'success') {
                     trainingCtrl.showData = trainingCtrl.success.person_details;
                 }   else if (status == 'pending'){
+                    trainingCtrl.displayUserInfo = false;
                     trainingCtrl.showData = trainingCtrl.pending.person_details;
                 } else {
                     trainingCtrl.showData = trainingCtrl.rejected.person_details;  
@@ -87,7 +88,12 @@ var trainingModule = angular.module('project_X.training', [
             }
 
             trainingCtrl.showUserInfo = function(user) {
-                trainingCtrl.displayUserInfo = true;
+                if(user.status=="PENDING") {
+                    trainingCtrl.displayUserInfo = false;
+                }
+                else {
+                   trainingCtrl.displayUserInfo = true; 
+                }
                 trainingCtrl.userData = user;
                 console.log(trainingCtrl.userData);
             }

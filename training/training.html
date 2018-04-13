@@ -72,16 +72,16 @@
     <div class="row" class="info-table" ng-if="trainCtrl.displayTableInfo">
         <div class="col-md-12">
             <div class="card">
-                <div class="table-responsive">
+                <div class="table-responsive" ng-if="trainCtrl.showData">
                     <table class="table table-striped">
                         <thead class="text-left">
                             <tr>
-                            <th>Name</th>
-                            <th>Number</th>
+                            <th width="20%">Name</th>
+                            <th width="15%">Number</th>
                             <th>Address</th>
-                            <th>PAN</th>
-                            <th>Aadhar</th>
-                            <th>Email</th>
+                            <th width="10%">PAN</th>
+                            <th width="15%">Aadhar</th>
+                            <th width="15%">Email</th>
                             </tr>
                         </thead>
                         <tbody>
