@@ -1,0 +1,141 @@
+#!/bin/bash
+
+FILE_NAME=$1;
+WIDTH=`identify -verbose $1 | grep Geometry | sed -e 's|Geometry:||g' -e 's|+0+0||g' -e 's|x[0-9]*||g' -e 's/^[ \t]*//'`;
+
+REG_EX_PAN_WORD="Permanent\|Permanen\|Permane\|Account\|Accoun\|Accou\|Number\|Numbe\|Numb\|ermanent\|rmamnent";
+REG_EX_INCOME_TAX_WORD="INCOME\|NCOME\|COME\|INCOM\|INCO\|TAX\|DEPARTMENT\|DEPARTMENT\|EPARTMENT\|PARTMENT\|ARTMENT\|RTMENT\|DEPARTMEN\|DEPARTME\|DEPARTM\|DEPART";
+REG_EX_PAN_DOB="[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]";
+REG_EX_PAN="[A-Z]\{5,5\}[0-9]\{4,4\}[A-Z]";
+REG_EX_NAME="[A-Z][A-Z ]*";
+
+INITIAL_FUZZ=20;
+FUZZ_VALUE=$INITIAL_FUZZ;
+MAXIMUM_FUZZ=40;
+INCREMENT_FUZZ_BY=5;
+PAN="";
+DOB="";
+NAME="";
+GUARDIAN="";
+
+#echo "Image Width: $WIDTH";
+HALF_WIDTH=`expr $WIDTH / 2`;
+#echo "Half Width: $HALF_WIDTH";
+
+information_captured()
+{
+	if [[ -z $PAN || -z $DOB ]];
+	then
+		echo "In";
+		printValues;
+		return 0;	
+	fi
+	
+	return 1;
+}
+
+printValues()
+{
+	echo "PAN: $PAN";
+	echo "DOB: $DOB";
+	echo "NAME: $NAME";
+	echo "GUARDIAN: $GUARDIAN";
+}
+
+#echo "convert $FILE_NAME -crop -$HALF_WIDTH+0 HALF_$FILE_NAME";
+convert $FILE_NAME -crop -$HALF_WIDTH+0 HALF_$FILE_NAME;
+convert HALF_$FILE_NAME -density 3000 -resize "2000x" DENSE_$FILE_NAME;
+
+N_LINE=-1;
+G_LINE=-1;
+PAN_LINE=-1;
+DOB_LINE=-1;
+
+while [[ $FUZZ_VALUE -le $MAXIMUM_FUZZ ]]
+do
+	echo;echo;
+	echo "For FUZZ Value: $FUZZ_VALUE";
+	convert DENSE_$FILE_NAME -fill white -fuzz $FUZZ_VALUE% +opaque "#000000" READY_$FILE_NAME;
+	
+	RAW_OUTPUT=`tesseract READY_$FILE_NAME $FILE_NAME -psm 6 -l eng+hin`;
+	LINE=-1;
+	while read a; 
+	do
+		a=`echo $a | sed -e 's/^[ \t]*//'`;
+		LINE=`expr $LINE + 1`;
+		if [[ -z $a || $a =~ [^a-zA-Z0-9\/\ ] ]];
+		then
+			continue;
+		else
+			
+			PAN_TEMP=`echo $a | grep -o $REG_EX_PAN`;
+			DOB_TEMP=`echo $a | grep -o $REG_EX_PAN_DOB`;
+			NAME_TEMP=`echo $a | grep -w "$REG_EX_NAME"`;
+			GUARDIAN_TEMP=`echo $a | grep -w "$REG_EX_NAME"`;
+			PAN_TEXT=`echo $a | grep -o "$REG_EX_PAN_WORD"`;
+			INCOME_TAX_TEXT=`echo $a | grep -o "$REG_EX_INCOME_TAX_WORD"`;
+			
+			if [[ -n $PAN_TEXT || -n $INCOME_TAX_TEXT ]]
+			then
+				continue;	
+			fi
+	
+			echo ">> $a NAME:$NAME_TEMP, GUARDIAN:$GUARDIAN_TEMP, LINE:$LINE, N_LINE:$N_LINE, G_LINE:$G_LINE";
+					
+			if [[ -n $NAME_TEMP && ( $LINE -lt $G_LINE || $G_LINE -lt 0  ) ]]
+			then
+				TEST=`echo $NAME_TEMP | tr -d "[:alpha:]\ *"`;
+				echo "++$TEST++";
+				if [[ -z $TEST ]]
+				then
+					NAME=$NAME_TEMP;
+					N_LINE=$LINE;
+				fi
+			fi
+
+			if [[ -n $PAN_TEMP && -z $PAN ]]
+        		then
+                		PAN=$PAN_TEMP;
+				PAN_LINE=$LINE;
+        		fi
+
+     	   		if [[ -n $DOB_TEMP && -z $DOB ]]
+	        	then
+                		DOB=$DOB_TEMP;
+				DOB_LINE=$LINE;
+        		fi
+		
+			if [[ -n $GUARDIAN_TEMP ]]
+			then
+				TEST=`echo $NAME_TEMP | tr -d "[:alpha:]\ *"`;
+                                echo "::$TEST::";
+				echo "[[ $LINE -gt $G_LINE ]]";
+				if [[ $LINE -gt $G_LINE && -z $TEST ]]
+				then
+					echo "IFFFF";
+					NAME=$GUARDIAN;
+					GUARDIAN=$GUARDIAN_TEMP;
+					G_LINE=$LINE;
+				elif [[ -z $TEST ]]
+				then
+					echo "ELSEEE";
+					NAME=$NAME_TEMP;
+					N_LINE=$LINE;
+				fi
+			fi
+			
+		fi
+	done < $FILE_NAME.txt
+	
+	if [[ -n $PAN && -n $DOB && -n $NAME && -n $GUARDIAN ]];
+	then
+		break;
+	fi
+
+	FUZZ_VALUE=`expr $FUZZ_VALUE + $INCREMENT_FUZZ_BY`;
+done
+
+echo "PAN: $PAN";
+echo "DOB: $DOB";
+echo "NAME: $NAME";
+echo "GUARDIAN: $GUARDIAN";

@@ -102,23 +102,24 @@
     <div class="row" class="user-detail" ng-if="trainCtrl.displayUserInfo">
         <div class="col-md-12">
             <div class="card">
-                <div class="row">
+                <div class="row similar-img">
                     <div class="col-md-4">
                         <div class="card">
-                            <img src="{{trainCtrl.userData.self_image}}" />
+                            <img src="./temp_upload/{{trainCtrl.userData.self_image}}" />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
-                            <img src="{{trainCtrl.userData.aadhaar_image}}" />
+                            <img src="./temp_upload/{{trainCtrl.userData.aadhaar_image}}" />
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
-                            <img src="{{trainCtrl.userData.pan_image}}" />
+                            <img src="./temp_upload/{{trainCtrl.userData.pan_image}}" />
                         </div>
                     </div>
                     <div class="img-label">
+                      <p></p>
                        <p>Selfie and Aadhaar similarity {{trainCtrl.userData.selfie_aadhaar_similarity}} %</p>
                        <p>Selfie and PAN similarity {{trainCtrl.userData.selfie_pan_similarity}} %</p>
                     </div>   

@@ -158,9 +158,30 @@
 }
 .img-label > p {
   display: inline-block;
-  width: 49%;
+  width: 32.33%;
   text-align: center;
 }
+.similar-img {
+ text-align:center;
+}
+.similar-img .card {
+ height:400px;
+ position:relative;
+}
+.similar-img img {
+      max-width: 90%;
+    max-height: 367px;
+    height: auto;
+    vertical-align: middle;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+
 /*.status .count-num,  .status .count-title{
   color:rgba(0,0,0,0.8) !important;
 }*/;
